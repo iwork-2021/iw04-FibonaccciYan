@@ -44,7 +44,7 @@ class ViewController: UIViewController {
     
     lazy var classificationRequest: VNCoreMLRequest = {
         do{
-            let classifier = try SnacksKindClassifier(configuration: MLModelConfiguration())
+            let classifier = try HealthySnacksClassifier(configuration: MLModelConfiguration())
             let model = try VNCoreMLModel(for: classifier.model)
             let request = VNCoreMLRequest(model: model, completionHandler: {
                 [weak self] request,error in
@@ -69,8 +69,8 @@ class ViewController: UIViewController {
 
         // Show the "choose or take a photo" hint when the app is opened.
         if firstTime {
-            showResultsView(delay: 0.5)
-            firstTime = false
+          showResultsView(delay: 0.5)
+          firstTime = false
         }
     }
   
@@ -121,7 +121,6 @@ class ViewController: UIViewController {
             print("Failed to perform classification: \(error)")
         }
     }
-    
 }
 
 extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -150,9 +149,9 @@ extension ViewController {
                 let result = results[0].identifier
                 let confidence = results[0].confidence
                 if confidence < 0.70 {
-                    self.resultsLabel.text! = "I'm not sure.Is this a/an " + result + " ?"
+                    self.resultsLabel.text! = "I'm not sure.Is this " + result + " ?"
                 } else {
-                    self.resultsLabel.text! = "I'm " + String(format:"%.1f%%", confidence * 100) + " sure that this is a/an " + result + "."
+                    self.resultsLabel.text! = "I'm " + String(format:"%.1f%%", confidence * 100) + " sure that this is " + result + "."
                 }
             }
         } else if let error = error {
